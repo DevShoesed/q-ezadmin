@@ -34,6 +34,7 @@ export function handleAuthStateChanged({ commit, dispatch, state }) {
         commit(
           "store/setUserDetails",
           {
+            userId: userId,
             name: userDatails.name,
             email: userDatails.email
           },
@@ -46,5 +47,34 @@ export function handleAuthStateChanged({ commit, dispatch, state }) {
       commit("store/setUserDetails", {}, { root: true });
       this.$router.replace("/auth");
     }
+  });
+}
+
+export function firebaseGetEnvs({ commit, state }) {
+  firebaseDb.ref("/envs/").on("child_added", snapshot => {
+    const envDetails = snapshot.val();
+    const envId = snapshot.key;
+    commit("addEnvs", {
+      envId,
+      envDetails
+    });
+  });
+}
+
+export function apiGetErrorLast7Days({ commit, state }) {
+  console.log(Object.values(state.envs));
+  Object.values(state.envs).forEach(element => {
+    console.log("element", element);
+    // const endpoint = element.apiUrl + "/server.php?";
+    // const requestaParm = {
+    //   action: "Admin_SysLog",
+    //   SEV_Error: "1",
+    //   da_data: new Date().getDate() - 7
+    // };
+    // fetch(endpoint + new URLSearchParams(requestaParm))
+    //   .then(res => res.json)
+    //   .then(data => {
+    //     console.log(data);
+    //   });
   });
 }

@@ -1,2 +1,3 @@
-export function someGetter (/* state */) {
+export function numberEnvs(state) {
+  return Object.keys(state.envs).length;
 }

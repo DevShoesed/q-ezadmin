@@ -8,12 +8,24 @@
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <q-icon 
+              name="sync"
+              size="xl"
+              class="text-secondady"
+            />
           </q-avatar>
           EZAdmin
         </q-toolbar-title>
 
-        <q-btn dense flat round icon="logout" @click="logoutUser" />
+        <q-btn 
+          
+          dense 
+          flat 
+          round 
+          icon="logout" 
+          @click="logoutUser" 
+          :label="userDetails.name" 
+        />
 
       </q-toolbar>
     </q-header>
@@ -43,7 +55,7 @@ export default {
     ...mapActions('store', ['logoutUser'])
   },
   computed: {
-    ...mapState('store', ['userDatails']),
+    ...mapState('store', ['userDetails']),
   }
 }
 </script>
