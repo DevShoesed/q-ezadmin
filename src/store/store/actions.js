@@ -1,5 +1,6 @@
-import { Notify } from "quasar";
+import { Notify, date } from "quasar";
 import { firebaseAuth, firebaseDb } from "boot/firebase";
+import { axios } from "src/boot/axios";
 
 export function loginUser({}, payload) {
   firebaseAuth
@@ -40,7 +41,7 @@ export function handleAuthStateChanged({ commit, dispatch, state }) {
           },
           { root: true }
         );
-        this.$router.push("/");
+        this.$router.push("/").catch(err => {});
       });
     } else {
       // User is logged out
@@ -50,31 +51,51 @@ export function handleAuthStateChanged({ commit, dispatch, state }) {
   });
 }
 
-export function firebaseGetEnvs({ commit, state }) {
-  firebaseDb.ref("/envs/").on("child_added", snapshot => {
-    const envDetails = snapshot.val();
-    const envId = snapshot.key;
-    commit("addEnvs", {
-      envId,
-      envDetails
+export async function firebaseGetEnvs({ commit, state }) {
+  return new Promise((resolve, reject) => {
+    firebaseDb.ref("/envs/").on("child_added", snapshot => {
+      const envDetails = snapshot.val();
+      const envId = snapshot.key;
+      commit("addEnvs", {
+        envId,
+        envDetails
+      });
+      resolve();
     });
   });
 }
 
-export function apiGetErrorLast7Days({ commit, state }) {
-  console.log(Object.values(state.envs));
+export async function apiGetErrors({ commit, state }) {
   Object.values(state.envs).forEach(element => {
-    console.log("element", element);
-    // const endpoint = element.apiUrl + "/server.php?";
-    // const requestaParm = {
-    //   action: "Admin_SysLog",
-    //   SEV_Error: "1",
-    //   da_data: new Date().getDate() - 7
-    // };
-    // fetch(endpoint + new URLSearchParams(requestaParm))
-    //   .then(res => res.json)
-    //   .then(data => {
-    //     console.log(data);
-    //   });
+    const endpoint = element.apiUrl + "/server.php?";
+    const da_data = date.formatDate(state.dateRange.from, "YYYY-MM-DD");
+    const a_data = date.formatDate(state.dateRange.to, "YYYY-MM-DD");
+    axios
+      .get(endpoint, {
+        params: {
+          action: "Admin_SysLog",
+          SEV_Error: "1",
+          da_data: da_data,
+          a_data: a_data
+        }
+      })
+      .then(response => {
+        const responseData = response.data.data;
+        commit("addErrors", {
+          envName: element.name,
+          errDetails: responseData
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
   });
+}
+
+export function setDateRange({ commit, dispatch }, payload) {
+  commit("setDateRange", {
+    from: payload.from,
+    to: payload.to
+  });
+  dispatch("apiGetErrors");
 }

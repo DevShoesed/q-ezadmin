@@ -18,10 +18,8 @@
         </q-toolbar-title>
 
         <q-btn 
-          
           dense 
           flat 
-          round 
           icon="logout" 
           @click="logoutUser" 
           :label="userDetails.name" 
