@@ -3,25 +3,7 @@
     <div class="bg-primary">
       <div class="q-pa-sm doc-container">
         <div class="column items-end">
-          <q-btn 
-            icon="event" 
-            no-caps
-            outline 
-            color="accent">
-            From {{ displayDate(dateRange.from) }} to {{ displayDate(dateRange.to) }}
-            <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
-              <q-date 
-                range
-                v-model="proxyDateRange" 
-                mask="YYYY-MM-DD" 
-              >
-                <div class="row items-center justify-end q-gutter-sm">
-                  <q-btn label="Cancel" color="primary" flat v-close-popup />
-                  <q-btn label="OK" color="primary" @click="saveProxy" flat v-close-popup />
-                </div>
-              </q-date>
-            </q-popup-proxy>
-          </q-btn>
+          
         </div>
       </div>
       <div class="q-pa-sm row q-col-gutter-sm">
@@ -66,25 +48,14 @@ export default {
   name: 'PageIndex',
   data() {
     return {
-      loading: false,
-      calendar: false,
-      proxyDateRange: this.dateRange
+      loading: false
     }
   },
   methods: {
-    ...mapActions('store', ['firebaseGetEnvs', 'apiGetErrors', 'setDateRange']),
-    updateProxy() {
-      this.proxyDateRange = this.dateRange
-    },
-    saveProxy() {
-      this.setDateRange(this.proxyDateRange)
-    },
-    displayDate(givenDate) {
-      return date.formatDate(givenDate, 'DD MMM YY')
-    }
+    ...mapActions('store', ['firebaseGetEnvs', 'apiGetErrors'])
   },
   computed: {
-    ...mapGetters('store', ['numberEnvs', 'dateRange', 'numErrors'])
+    ...mapGetters('store', ['numberEnvs', 'numErrors'])
   },
   async mounted() {
     this.loading = true

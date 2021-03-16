@@ -6,6 +6,14 @@ const routes = [
       {
         path: "",
         component: () => import("pages/Index.vue")
+      },
+      {
+        path: "/envs",
+        component: () => import("pages/Environments.vue")
+      },
+      {
+        path: "/errors",
+        component: () => import("pages/Errors.vue")
       }
     ]
   },
