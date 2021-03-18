@@ -1,13 +1,22 @@
 <template>
   <q-page class="container bg-grey-2 q-pa-lg">
-    <!-- <q-list>
-      <error-item 
-        v-for="(err, index) in allErrors"
-        :key="index"
-        :error="err"
-      />
-    </q-list> -->
-    <q-table
+    <div class="bg-white">
+      <div class="text-h4 text-uppercase text-center text-primary">Errors</div>
+
+      <q-separator />
+
+      <q-list
+        padding
+      >
+        <error-item 
+          v-for="(err, index) in allErrors"
+          :key="index"
+          :error="err"
+        />
+      </q-list>
+    </div>
+    
+    <!-- <q-table
       style="height: 400px"
       title="Errors"
       :data="allErrors"
@@ -19,7 +28,7 @@
       <template v-slot:body="props">
         <q-tr :props="props">
             <q-td key="sev" :props="props">
-              <q-badge color="red" :label="props.row.sev.charAt(0)" />
+              <q-badge color="negtive" :label="props.row.sev.charAt(0)" />
             </q-td>
             <q-td key="environment" class="text-bold" align="left">
               {{ props.row.environment }}
@@ -44,9 +53,9 @@
             </q-td>
         </q-tr>
       </template>
-    </q-table>
+    </q-table> -->
 
-     <q-dialog
+     <!-- <q-dialog
       v-model="dialogPayload"
     >
       <q-card>
@@ -54,10 +63,10 @@
           <div class="text-h6">{{ dialog.title }}</div>
         </q-card-section>
         <q-card-section style="max-height: 50vh" class="q-pt-none scroll">
-          <pre>{{ JSON.stringify(JSON.parse(dialog.payload), null, '\t') }}</pre>
+          <pre>{{ dialog.payload }}</pre>
         </q-card-section>
       </q-card>
-    </q-dialog>
+    </q-dialog> -->
   </q-page>
 </template>
 
@@ -87,7 +96,7 @@ export default {
   methods: {
     showPayload(row) {
       this.dialog.title = row.environment;
-      this.dialog.payload = row.payload;
+      this.dialog.payload = JSON.parse(row.payload) ? JSON.stringify(JSON.parse(row.payload), null, '\t') : row.payload;
       this.dialogPayload = true;
     }
   },
@@ -95,7 +104,7 @@ export default {
     ...mapGetters('store', ['allErrors'])
   },
   components: {
-   // ErrorItem: () => import('components/ErrorItem')
+   ErrorItem: () => import('components/ErrorItem')
   }
 }
 </script>

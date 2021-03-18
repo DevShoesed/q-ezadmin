@@ -7,8 +7,8 @@
     <q-card-section>
         <div class="row">
             <div class="col">
-                <div class="text-h5 text-uppercase text-blue-grey-4 q-mb-none">{{ name }}</div>
-                <span class="text-h4 text-weight-bold q-mb-none">
+                <div class="text-h5 text-uppercase text-accent q-mb-none">{{ name }}</div>
+                <span class="text-h4 text-weight-bold q-mb-none text-accent">
                     {{ value }}
                 </span>
             </div>

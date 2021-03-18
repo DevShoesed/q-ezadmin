@@ -1,22 +1,23 @@
 <template>
   <div>
-    <q-separator color="primary" inset />
     <q-item
-      clickable 
+      clickable
+      v-ripple
     >
+      <q-item-section avatar top >
+        <q-icon name="error_outline" color="negative" size="md" class="q-ml-md" />
+      </q-item-section>
+
       <q-item-section>
-        <q-item-label>{{ error.Contesto }}</q-item-label>
-        <q-item-label caption lines="2"> {{ error.Testo }}</q-item-label> 
+        <q-item-label><span class="text-bold text-primary">{{ error.environment }}</span> - {{ error.contesto }}</q-item-label>
+        <q-item-label caption lines="2"> {{ error.message }}</q-item-label> 
+      </q-item-section>
+      
+      <q-item-section side>
+        <q-item-label caption>{{ error.time }}</q-item-label>
       </q-item-section>
 
-      <q-item-section side top>
-        <q-item-label caption>{{ error.DataLog }}</q-item-label>
-        
-        <q-badge color="red">
-          Error <q-icon name="error_outline" color="white" class="q-ml-xs" />
-        </q-badge>
-
-      </q-item-section>
+     
     </q-item>
   </div>
 </template>

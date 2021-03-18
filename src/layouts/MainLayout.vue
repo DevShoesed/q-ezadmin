@@ -67,9 +67,9 @@
           to="/"
         >
           <q-item-section avatar>
-            <q-icon name="home" />
+            <q-icon name="dashboard" />
           </q-item-section>
-          <q-item-section>Home</q-item-section>
+          <q-item-section>Dashboard</q-item-section>
         </q-item>
         
         <q-item

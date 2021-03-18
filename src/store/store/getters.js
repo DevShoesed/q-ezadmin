@@ -4,6 +4,10 @@ export function numberEnvs(state) {
   return Object.keys(state.envs).length;
 }
 
+export function envs(state) {
+  return state.envs;
+}
+
 export function dateRange(state) {
   return {
     from: date.formatDate(state.dateRange.from, "YYYY-MM-DD"),
@@ -22,7 +26,7 @@ export function allErrors(state) {
       allErrors.push({
         environment: envName,
         sev: err.DescSeverity,
-        time: date.formatDate(err.DataLog, "HH:mm, MMM D"),
+        time: date.formatDate(err.DataLog, "D MMM, HH:mm"),
         contesto: err.Contesto,
         message: err.Testo,
         payload: err.Payload

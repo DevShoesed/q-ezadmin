@@ -9,6 +9,6 @@ const api = axios.create({
   }
 });
 
-Vue.prototype.$axios = api;
+Vue.prototype.$axios = axios;
 
 export { axios };
