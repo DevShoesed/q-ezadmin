@@ -39,10 +39,17 @@
         </div>
       </div>
       <div class="row q-pa-lg">
-        <div class="col-md-4">
+        <div class="col-md-4 q-pr-xs">
           <q-card>
             <q-card-section>
-              <apexchart :options="options" :series="series"></apexchart>
+              <apexchart id="chartOrder" :options="optionsNumber" :series="newSeriesNumber"></apexchart>
+            </q-card-section>
+          </q-card>  
+        </div>
+        <div class="col-md-4 q-pl-xs">
+          <q-card>
+            <q-card-section>
+              <apexchart id="chartTotal" :options="optionTotal" :series="newSeriesTotal"></apexchart>
             </q-card-section>
           </q-card>  
         </div>
@@ -68,10 +75,11 @@ export default {
   data() {
     return {
       loading: false,
-      options: {
+      optionsChart: {
         chart: {
           type: 'area',
-          height: 160,
+          group: 'orders',
+          height: 150,
           sparkline: {
             enabled: true
           },
@@ -80,13 +88,17 @@ export default {
           curve: 'straight'
         },
         fill: {
-          opacity: 0.3,
+          opacity: 1,
         },
         yaxis: {
-          min: 0
+          min: 0,
+          labels: {
+            show: false,
+            minWidth: 40
+          }
         },
         subtitle: {
-          text: 'Orders',
+          text: 'This mounth',
           offsetX: 0,
           style: {
             fontSize: '14px',
@@ -99,17 +111,26 @@ export default {
             fontSize: '24px',
           }
         },
+        noData: {
+          text: 'Loading'
+        }
       },
-      series: [],
+      seriesNumber: [],
+      seriesTotal: []
     }
   },
   methods: {
     ...mapActions('store', ['firebaseGetEnvs', 'apiGetErrors']),
+    formatPrice(value) {
+        let val = (value/1).toFixed(2).replace('.', ',')
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    },
     apiLoadStats() {
       Object.values(this.envs).forEach(element => {
         const endpoint = element.apiUrl + "/server.php?";
-        const DataInizio = date.formatDate(this.dateRange.from, "YYYY-MM-DD");
-        const DataFine = date.formatDate(this.dateRange.to, "YYYY-MM-DD");
+        const DataInizio = date.formatDate(date.startOfDate(new Date(), 'month'), "YYYY-MM-DD");
+        const DataFine = date.formatDate(new Date(), "YYYY-MM-DD");
+
         this.$axios
           .get(endpoint, {
             params: {
@@ -122,30 +143,21 @@ export default {
           })
           .then(response => {
             const data = response.data.data;
-            if(data.labels)
+            if(data.numeroOrdini_APP) 
             {
-              const newTotal = data.numeroOrdini_APP.reduce((t, el) => parseInt(t) + parseInt(el), this.options.title.text)
-              this.options = {...this.options, ...{
-                xaxis: {
-                  categories: data.labels
-                },
-                title: {
-                  text: newTotal
+              this.seriesNumber.push(data.numeroOrdini_APP.map((el, i) => {
+                return {
+                  x: data.labels[i],
+                  y: el
                 }
-              }}
-
-              let newSeries = []
-              data.numeroOrdini_APP.map((el, i) => newSeries.push(
-                this.series[1] ? this.series[1].data[i] : 0 + parseInt(el)
-              ))
-              this.series = [
-                {
-                  name: 'Orders',
-                  data: newSeries
+              }))
+              this.seriesTotal.push(data.TotaleOrdini_APP.map((el, i) => {
+                return {
+                  x: data.labels[i],
+                  y: el
                 }
-              ]
-             }
-             
+              }))
+            }             
           })
           .catch(err => {
             console.error(err);
@@ -154,14 +166,90 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('store', ['numberEnvs', 'numErrors','envs', 'dateRange'])
+    ...mapGetters('store', ['numberEnvs', 'numErrors','envs', 'dateRange']),
+    newSeriesNumber: function() {
+      const n = this.seriesNumber.reduce((max, xs) => Math.max(max, xs.length), 0);
+      const result = Array.from({ length: n });
+      const data = result.map((_, i) => this.seriesNumber.map(xs => xs[i] || 0).reduce((sum, x) => 
+         {
+          return {
+            x: x.x,
+            y: sum.y + parseInt(x.y)
+          }
+        }
+        , {x: 0, y: 0})
+      );
+      return [{
+        name: 'Orders',
+        data: data
+      }]
+    },
+    newSeriesTotal: function() {
+      const n = this.seriesTotal.reduce((max, xs) => Math.max(max, xs.length), 0);
+      const result = Array.from({ length: n });
+      const data = result.map((_, i) => this.seriesTotal.map(xs => xs[i] || 0).reduce((sum, x) => 
+         {
+          return {
+            x: x.x,
+            y: sum.y + parseInt(x.y)
+          }
+        }
+        , {x: 0, y: 0})
+      );
+      return [{
+        name: 'Total',
+        data: data
+      }]
+    },
+    optionsNumber: function() 
+      {
+        return {
+          ...this.optionsChart, 
+          ...{
+            title: {
+              text: this.newSeriesNumber[0].data.reduce((sum, x) => sum + x.y, 0),
+              style: {
+                fontSize: "24px"
+              }
+            },
+            subtitle: {
+              text: 'Orders',
+              style: {
+                fontSize: "14px"
+              }
+            }
+          }
+        }
+    },
+    optionTotal: function() 
+      {
+        return {
+          ...this.optionsChart, 
+          ...{
+            title: {
+              text: this.formatPrice(this.newSeriesTotal[0].data.reduce((sum, x) => sum + x.y, 0)),
+              style: {
+                fontSize: "24px"
+              }
+            },
+            subtitle: {
+              text: 'Totale',
+              style: {
+                fontSize: "14px"
+              }
+            }
+          }
+        }
+    },
   },
   async mounted() {
     this.loading = true
     await this.firebaseGetEnvs()
       .then(() => this.apiGetErrors())
       .then(() => this.apiLoadStats())
-    this.loading = false
+      .then(() => this.loading = false )
+    
+    
   },
   components: {
     MiniCard: () => import('components/MiniCard'),

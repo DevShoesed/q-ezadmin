@@ -10,15 +10,16 @@
 
       <q-item-section>
         <q-item-label><span class="text-bold text-primary">{{ error.environment }}</span> - {{ error.contesto }}</q-item-label>
-        <q-item-label caption lines="2"> {{ error.message }}</q-item-label> 
+        <q-item-label caption lines="4"> {{ error.message }}</q-item-label> 
       </q-item-section>
       
-      <q-item-section side>
+      <q-item-section side top>
         <q-item-label caption>{{ error.time }}</q-item-label>
       </q-item-section>
-
-     
     </q-item>
+
+    <q-separator color="accent" inset />
+
   </div>
 </template>
 

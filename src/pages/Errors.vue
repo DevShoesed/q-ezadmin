@@ -16,45 +16,6 @@
       </q-list>
     </div>
     
-    <!-- <q-table
-      style="height: 400px"
-      title="Errors"
-      :data="allErrors"
-      :columns="coloumns"
-      virtual-scroll
-      :pagination.sync="pagination"
-      :rows-per-page-options="[0]"
-    >
-      <template v-slot:body="props">
-        <q-tr :props="props">
-            <q-td key="sev" :props="props">
-              <q-badge color="negtive" :label="props.row.sev.charAt(0)" />
-            </q-td>
-            <q-td key="environment" class="text-bold" align="left">
-              {{ props.row.environment }}
-            </q-td>
-            <q-td key="time" align="left">
-              {{ props.row.time }}
-            </q-td>
-            <q-td key="subject" class="text-uppercase" align="left">
-              {{ props.row.contesto }}
-            </q-td>
-            <q-td key="message" class="text-caption" align="left">
-              {{ props.row.message }}
-            </q-td>
-            <q-td key="payload">
-              <q-btn
-                v-if="props.row.payload != ''" 
-                size="sm"
-                icon="code" 
-                color="primary" 
-                @click="showPayload(props.row)" 
-              />
-            </q-td>
-        </q-tr>
-      </template>
-    </q-table> -->
-
      <!-- <q-dialog
       v-model="dialogPayload"
     >

@@ -22,7 +22,7 @@
           dense 
           flat 
           icon-right="logout" 
-          @click="logoutUser"
+          @click="logout"
           :label="userDetails.name" 
         />
 
@@ -126,6 +126,9 @@ export default {
     },
     displayDate(givenDate) {
       return date.formatDate(givenDate, 'DD MMM YY')
+    },
+    logout() {
+      this.logoutUser()
     }
   },
   computed: {
