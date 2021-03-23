@@ -15,3 +15,11 @@ export function addErrors(state, payload) {
 export function setDateRange(state, payload) {
   state.dateRange = payload;
 }
+
+export function updateEnvStatus(state, payload) {
+  state.envs[payload.id] = {
+    ...state.envs[payload.id],
+    status: payload.status,
+    lastUpdate: payload.time
+  };
+}

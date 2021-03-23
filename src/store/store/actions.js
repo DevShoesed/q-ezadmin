@@ -51,18 +51,58 @@ export function handleAuthStateChanged({ commit, dispatch, state }) {
   });
 }
 
-export async function firebaseGetEnvs({ commit, state }) {
+export async function firebaseGetEnvs({ commit, state, dispatch }) {
   return new Promise((resolve, reject) => {
     firebaseDb.ref("/envs/").on("child_added", snapshot => {
       const envDetails = snapshot.val();
       const envId = snapshot.key;
-      commit("addEnvs", {
-        envId,
-        envDetails
-      });
+      const newEnv = {
+        envId: envId,
+        envDetails: envDetails
+      };
+      dispatch("store/apiGetStatus", newEnv, { root: true });
+      commit("addEnvs", newEnv);
       resolve();
     });
   });
+}
+
+export function updateEnvsStatus({ dispatch, state }) {
+  for (const [envId, envDetails] of Object.entries(state.envs)) {
+    dispatch(
+      "store/apiGetStatus",
+      {
+        envId: envId,
+        envDetails: envDetails
+      },
+      { root: true }
+    );
+  }
+}
+
+export async function apiGetStatus({ commit }, singleEnv) {
+  const endpoint = singleEnv.envDetails.apiUrl + "/server.php?";
+  axios
+    .get(endpoint, {
+      params: {
+        action: "ping"
+      }
+    })
+    .then(response => {
+      const data = response.data;
+      commit("updateEnvStatus", {
+        id: singleEnv.envId,
+        time: date.formatDate(new Date(), "H:mm:ss"),
+        status: "online"
+      });
+    })
+    .catch(() => {
+      commit("updateEnvStatus", {
+        id: singleEnv.envId,
+        time: date.formatDate(new Date(), "H:mm:ss"),
+        status: "offline"
+      });
+    });
 }
 
 export async function apiGetErrors({ commit, state }) {

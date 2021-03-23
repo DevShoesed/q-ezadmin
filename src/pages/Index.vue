@@ -8,33 +8,25 @@
           </div>
         </div>
         <div class="q-pa-sm row q-col-gutter-sm">
-          <div class="col-xs-12 col-sm-6 col-lg-3">
-            <mini-card
-                v-if="!loading"
-                :value="numberEnvs"
-                name="Environments"
-                icon="apps"
-                color="accent"
-              />
-              <q-skeleton 
-                v-else 
-                width="200px" 
-                height="100px" 
-              />
-          </div>
-          <div class="col-xs-12 col-xs-12 col-sm-6 col-lg-3">
-            <mini-card
-                v-if="!loading"
-                :value="numErrors"
-                name="Errors"
-                icon="error_outline"
-                color="accent"
-              />
-              <q-skeleton 
-                v-else 
-                width="200px" 
-                height="100px" 
-              />
+          <div 
+            class="col q-ma-xs bg-white" 
+            v-for="(env, key) in envs"
+            :key="key"
+          >
+            <q-item
+              v-ripple
+              clickable
+            >
+              <q-item-section>
+                {{ env.name }}
+                <div class="text-caption text-grey-7" style="font-size: 0.6rem">last update: {{ env.lastUpdate }}</div>
+              </q-item-section>
+        
+              <q-item-section side>
+                <q-icon name="circle" :color="env.status == 'online' ? 'green' : 'grey-5' " />
+              </q-item-section>
+
+            </q-item>
           </div>
         </div>
       </div>
@@ -75,6 +67,7 @@ export default {
   data() {
     return {
       loading: false,
+      intervalObj: null,
       optionsChart: {
         chart: {
           type: 'area',
@@ -120,7 +113,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('store', ['firebaseGetEnvs', 'apiGetErrors']),
+    ...mapActions('store', ['firebaseGetEnvs', 'apiGetErrors', 'updateEnvsStatus']),
     formatPrice(value) {
         let val = (value/1).toFixed(2).replace('.', ',')
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
@@ -244,6 +237,7 @@ export default {
   },
   async mounted() {
     this.loading = true
+    this.intervalObj = setInterval(() => { this.updateEnvsStatus() }, 20000)
     await this.firebaseGetEnvs()
       .then(() => this.apiGetErrors())
       .then(() => this.apiLoadStats())
@@ -251,8 +245,11 @@ export default {
     
     
   },
+  beforeDestroy() {
+    clearInterval(this.intervalObj)
+  },
   components: {
-    MiniCard: () => import('components/MiniCard'),
+    //MiniCard: () => import('components/MiniCard'),
     apexchart: VueApexCharts,
   }
 }
