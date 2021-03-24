@@ -10,6 +10,15 @@
             "value": "no-cache, no-store, must-revalidate"
           }
         ]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png|css|js)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=1000000"
+          }
+        ]
       }
     ],
     "ignore": [
@@ -19,11 +28,7 @@
     ],
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
-      }, 
-      {
-        "source": "!/@(jpg|jpeg|gif|png|svg|webp|js|css|eot|otf|ttf|ttc|woff|woff2|font.css)/**",
+        "source": "!/@(js|css|fonts|icons)/**",
         "destination": "/index.html"
       }
     ]
