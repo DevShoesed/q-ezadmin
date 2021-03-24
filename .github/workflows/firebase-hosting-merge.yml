@@ -8,11 +8,22 @@ name: Deploy to Firebase Hosting on merge
       - master
 jobs:
   build_and_deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - run: npm install && quasar build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - name: Install 1
+        run: npm install
+      - name: Install 2
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_EZADMIN_37672 }}'
