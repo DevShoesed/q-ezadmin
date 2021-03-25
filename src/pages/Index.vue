@@ -7,7 +7,7 @@
             
           </div>
         </div>
-        <div class="q-pa-sm row q-col-gutter-sm">
+        <div class="q-pa-sm row q-col-gutter-xs">
           <div 
             class="col q-ma-xs bg-white" 
             v-for="(env, key) in envs"
@@ -30,15 +30,15 @@
           </div>
         </div>
       </div>
-      <div class="row q-pa-lg">
-        <div class="col-md-4 q-pr-xs">
+      <div class="q-pa-sm row q-col-gutter-xs">
+        <div class="col-xs-12 col-md-4">
           <q-card>
             <q-card-section>
               <apexchart id="chartOrder" :options="optionsNumber" :series="newSeriesNumber"></apexchart>
             </q-card-section>
           </q-card>  
         </div>
-        <div class="col-md-4 q-pl-xs">
+        <div class="col-xs-12 col-md-4">
           <q-card>
             <q-card-section>
               <apexchart id="chartTotal" :options="optionTotal" :series="newSeriesTotal"></apexchart>
