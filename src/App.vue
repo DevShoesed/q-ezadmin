@@ -10,7 +10,7 @@ export default {
   methods: {
     ...mapActions('store', ['handleAuthStateChanged'])
   },
-  mounted () {
+  beforeMount () {
     this.handleAuthStateChanged()
   }
 }
