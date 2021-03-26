@@ -31,14 +31,32 @@
         </div>
       </div>
       <div class="row q-pa-sm q-col-gutter-xs">
-        <div class="col-xs-12 col-md-4">
+        <div class="col-md-12 col-lg-6 col-xl-6">
+          <mini-card 
+            name="Today Orders"
+            :value="todayOrder"
+            icon="shopping_cart"
+            color="primary"
+          />
+        </div>
+        <div class="col-md-12 col-lg-6 col-xl-6">
+          <mini-card 
+            name="Today Total"
+            :value="todayTotal"
+            icon="euro_symbol"
+            color="primary"
+          />
+        </div>
+      </div>
+      <div class="row q-pa-sm q-col-gutter-xs">
+        <div class="col-xs-12 col-md-6">
           <q-card>
             <q-card-section>
               <apexchart id="chartOrder" :options="optionsNumber" :series="newSeriesNumber"></apexchart>
             </q-card-section>
           </q-card>  
         </div>
-        <div class="col-xs-12 col-md-4">
+        <div class="col-xs-12 col-md-6">
           <q-card>
             <q-card-section>
               <apexchart id="chartTotal" :options="optionTotal" :series="newSeriesTotal"></apexchart>
@@ -239,6 +257,14 @@ export default {
           }
         }
     },
+    todayOrder: function() {
+      const data = this.newSeriesNumber[0].data
+      return data[data.length-1] ? data[data.length-1].y : 0
+    },
+    todayTotal: function() {
+      const data = this.newSeriesTotal[0].data
+      return data[data.length-1] ? data[data.length-1].y : 0
+    },
   },
   async mounted() {
     this.loading = true
@@ -254,7 +280,7 @@ export default {
     clearInterval(this.intervalObj)
   },
   components: {
-    //MiniCard: () => import('components/MiniCard'),
+    MiniCard: () => import('components/MiniCard'),
     apexchart: VueApexCharts,
   }
 }

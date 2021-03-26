@@ -1,25 +1,13 @@
 <template>
   <q-card 
-    v-ripple:primary 
-    bordered
-    class="mini-card q-pa-md rounded-lg bg-secondary"
+    v-ripple
+    class="q-mb-md rounded-lg bg-white"
     >
     <q-card-section>
-        <div class="row">
-            <div class="col">
-                <div class="text-h5 text-uppercase text-accent q-mb-none">{{ name }}</div>
-                <span class="text-h4 text-weight-bold q-mb-none text-accent">
-                    {{ value }}
-                </span>
-            </div>
-            <div class="col-auto">
-                <q-icon :name="icon" size="md" :color="color" />
-            </div>
-        </div>
+        <q-icon :name="icon" size="md" :color="color" />
+        <p class="text-muted mt-2 mb-2">{{ name }}</p>
+        <p class="text-primary text-24 line-height-1 m-0">{{ value }}</p>
     </q-card-section>
-    <q-card-actions v-if="description != '' ">
-        <span>{{ description }}</span>
-    </q-card-actions>
   </q-card>
 </template>
 
@@ -48,6 +36,6 @@ export default {
 </script>
 
 <style lang="stylus">
-.mini-card
-  cursor pointer
+.text-24
+  font-size: 24px;  
 </style>
