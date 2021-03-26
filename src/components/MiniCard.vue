@@ -3,10 +3,10 @@
     v-ripple
     class="q-mb-md rounded-lg bg-white"
     >
-    <q-card-section>
+    <q-card-section class="text-center">
         <q-icon :name="icon" size="md" :color="color" />
-        <p class="text-muted mt-2 mb-2">{{ name }}</p>
-        <p class="text-primary text-24 line-height-1 m-0">{{ value }}</p>
+        <p class="text-subtitle2 text-secondary q-mt-md q-mb-md">{{ name }}</p>
+        <p class="text-primary text-24 q-m-none">{{ value }}</p>
     </q-card-section>
   </q-card>
 </template>

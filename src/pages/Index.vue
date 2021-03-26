@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="row q-pa-sm q-col-gutter-xs">
-        <div class="col-md-12 col-lg-6 col-xl-6">
+        <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
           <mini-card 
             name="Today Orders"
             :value="todayOrder"
@@ -39,7 +39,7 @@
             color="primary"
           />
         </div>
-        <div class="col-md-12 col-lg-6 col-xl-6">
+        <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
           <mini-card 
             name="Today Total"
             :value="todayTotal"
@@ -47,10 +47,32 @@
             color="primary"
           />
         </div>
+
+        <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
+          <mini-card 
+            name="Today Login"
+            :value="todayLogin"
+            icon="login"
+            color="primary"
+          />
+        </div>
+
+        <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
+          <mini-card 
+            name="Today Errors"
+            :value="todayErrors"
+            icon="error"
+            color="primary"
+          />
+        </div>
+
       </div>
       <div class="row q-pa-sm q-col-gutter-xs">
         <div class="col-xs-12 col-md-6">
           <q-card>
+            <q-card-section class="text-uppercase text-subtitle2 text-secondary">
+              Orders
+            </q-card-section>
             <q-card-section>
               <apexchart id="chartOrder" :options="optionsNumber" :series="newSeriesNumber"></apexchart>
             </q-card-section>
@@ -58,6 +80,9 @@
         </div>
         <div class="col-xs-12 col-md-6">
           <q-card>
+            <q-card-section class="text-uppercase text-subtitle2 text-secondary">
+              Total
+            </q-card-section>
             <q-card-section>
               <apexchart id="chartTotal" :options="optionTotal" :series="newSeriesTotal"></apexchart>
             </q-card-section>
@@ -86,6 +111,8 @@ export default {
     return {
       loading: false,
       intervalObj: null,
+      todayLogin: 0,
+      todayErrors: 0,
       optionsChart: {
         chart: {
           type: 'area',
@@ -107,18 +134,17 @@ export default {
             show: false
           }
         },
-        subtitle: {
-          text: 'This mounth',
-          offsetX: 0,
-          style: {
-            fontSize: '14px',
-          }
-        },
         title: {
           text: 0,
           offsetX: 0,
           style: {
             fontSize: '24px',
+          }
+        },
+        subtitle: {
+          text: 'Last 15 days',
+          style: {
+            fontSize: "10px"
           }
         },
         noData: {
@@ -221,12 +247,6 @@ export default {
               style: {
                 fontSize: "24px"
               }
-            },
-            subtitle: {
-              text: 'Orders',
-              style: {
-                fontSize: "14px"
-              }
             }
           }
         }
@@ -246,12 +266,6 @@ export default {
               text: Intl.NumberFormat('en', { notation: 'compact' }).format(this.newSeriesTotal[0].data.reduce((sum, x) => sum + x.y, 0)),
               style: {
                 fontSize: "24px"
-              }
-            },
-            subtitle: {
-              text: 'Total',
-              style: {
-                fontSize: "14px"
               }
             }
           }
