@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="q-pa-sm row q-col-gutter-xs">
+      <div class="row q-pa-sm q-col-gutter-xs">
         <div class="col-xs-12 col-md-4">
           <q-card>
             <q-card-section>
@@ -86,8 +86,7 @@ export default {
         yaxis: {
           min: 0,
           labels: {
-            show: false,
-            minWidth: 40
+            show: false
           }
         },
         subtitle: {
@@ -114,14 +113,11 @@ export default {
   },
   methods: {
     ...mapActions('store', ['firebaseGetEnvs', 'apiGetErrors', 'updateEnvsStatus']),
-    formatPrice(value) {
-        let val = (value/1).toFixed(2).replace('.', ',')
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-    },
     apiLoadStats() {
       Object.values(this.envs).forEach(element => {
         const endpoint = element.apiUrl + "/server.php?";
-        const DataInizio = date.formatDate(date.startOfDate(new Date(), 'month'), "YYYY-MM-DD");
+        let today = new Date()
+        const DataInizio = date.formatDate(today.setDate(today.getDate() - 15), "YYYY-MM-DD");
         const DataFine = date.formatDate(new Date(), "YYYY-MM-DD");
 
         this.$axios
@@ -199,6 +195,9 @@ export default {
         return {
           ...this.optionsChart, 
           ...{
+            dataLabels: {
+              enabled: true,
+            },
             title: {
               text: this.newSeriesNumber[0].data.reduce((sum, x) => sum + x.y, 0),
               style: {
@@ -219,14 +218,20 @@ export default {
         return {
           ...this.optionsChart, 
           ...{
+            dataLabels: {
+              enabled: true,
+              formatter: function(val, opt) {
+                return Intl.NumberFormat('en', { notation: 'compact' }).format(val)
+              }
+            },
             title: {
-              text: this.formatPrice(this.newSeriesTotal[0].data.reduce((sum, x) => sum + x.y, 0)),
+              text: Intl.NumberFormat('en', { notation: 'compact' }).format(this.newSeriesTotal[0].data.reduce((sum, x) => sum + x.y, 0)),
               style: {
                 fontSize: "24px"
               }
             },
             subtitle: {
-              text: 'Totale',
+              text: 'Total',
               style: {
                 fontSize: "14px"
               }
