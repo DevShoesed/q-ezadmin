@@ -3,6 +3,8 @@
  * the ES6 features that are supported by your Node version. https://node.green/
  */
 
+const { QSpinnerCube } = require("quasar");
+
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
@@ -81,6 +83,11 @@ module.exports = function(/* ctx */) {
       config: {
         notify: {
           position: "center"
+        },
+        loading: {
+          backgroundColor: "primary",
+          spinnerColor: "accent",
+          spinner: "QSpinnerOval"
         }
       },
 
@@ -97,7 +104,7 @@ module.exports = function(/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Notify"]
+      plugins: ["Notify", "Loading"]
     },
 
     // animations: 'all', // --- includes all animations

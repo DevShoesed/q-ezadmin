@@ -1,6 +1,6 @@
 <template>
   <q-page class="container bg-grey-2">
-    <div v-if="!loading">
+
       <div class="bg-primary">
         <div class="q-pa-sm doc-container">
           <div class="column items-end">
@@ -48,7 +48,7 @@
           />
         </div>
 
-        <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
+        <!-- <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
           <mini-card 
             name="Today Login"
             :value="todayLogin"
@@ -64,7 +64,7 @@
             icon="error"
             color="primary"
           />
-        </div>
+        </div> -->
 
       </div>
       <div class="row q-pa-sm q-col-gutter-xs">
@@ -89,13 +89,7 @@
           </q-card>  
         </div>
       </div>
-    </div>
-    <div v-else>
-      <q-spinner-hourglass
-        color="primary"
-        size="xl"
-      />
-    </div>
+    
   </q-page>
 </template>
 
@@ -281,12 +275,13 @@ export default {
     },
   },
   async mounted() {
-    this.loading = true
+    //this.loading = true
+    this.$q.loading.show()
     this.intervalObj = setInterval(() => { this.updateEnvsStatus() }, 20000)
     await this.firebaseGetEnvs()
       .then(() => this.apiGetErrors())
       .then(() => this.apiLoadStats())
-      .then(() => this.loading = false )
+      .then(() => this.$q.loading.hide() )
     
     
   },
