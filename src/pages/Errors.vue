@@ -1,12 +1,13 @@
 <template>
   <q-page class="container bg-grey-2 q-pa-lg">
-    <div class="bg-white">
-      <div class="text-h4 text-uppercase text-center text-primary">Errors</div>
-
-      <q-separator />
-
+    
+    <h4 class="text-primary q-mb-xs">Error List</h4>
+    
+    <div class="bg-white rounded-borders shadow-1">
+      
       <q-list
         padding
+        v-if="allErrors.length > 0"
       >
         <error-item 
           v-for="(err, index) in allErrors"
@@ -14,6 +15,13 @@
           :error="err"
         />
       </q-list>
+      <div 
+        class="text-caption text-center text-bold q-pa-lg"
+        v-else
+      >
+        No errors
+      </div>
+
     </div>
     
      <!-- <q-dialog
