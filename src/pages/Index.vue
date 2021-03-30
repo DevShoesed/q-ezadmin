@@ -34,7 +34,7 @@
 
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 q-mb-md">
           <mini-card 
-            name="Today Orders"
+            name="Orders"
             :value="todayOrder"
             icon="shopping_cart"
             color="secondary"
@@ -43,7 +43,7 @@
         </div>
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 q-mb-md">
           <mini-card 
-            name="Today Total"
+            name="Total"
             :value="todayTotal"
             icon="euro_symbol"
             color="secondary"
@@ -52,7 +52,7 @@
 
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 q-mb-md">
           <mini-card 
-            name="Today Login"
+            name="Logins"
             :value="todayLogin"
             icon="login"
             color="secondary"
@@ -61,7 +61,7 @@
 
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 q-mb-md">
           <mini-card 
-            name="Today Errors"
+            name="Errors"
             :value="todayErrors"
             icon="error"
             color="secondary"
