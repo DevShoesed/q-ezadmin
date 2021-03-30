@@ -1,7 +1,7 @@
 <template>
   <q-page class="container bg-grey-2 q-pa-lg">
     
-    <h4 class="text-primary q-mb-xs">Error List</h4>
+    <h4 class="text-primary q-mt-none q-mb-xs">Error List</h4>
     
     <div class="bg-white rounded-borders shadow-1">
       

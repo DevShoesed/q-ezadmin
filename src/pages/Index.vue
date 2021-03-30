@@ -30,60 +30,58 @@
           </div>
         </div>
       </div>
-      <div class="row q-pa-sm q-col-gutter-xs">
-        <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
+      <div class="row q-pa-sm q-col-gutter-sm">
+
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 q-mb-md">
           <mini-card 
             name="Today Orders"
             :value="todayOrder"
             icon="shopping_cart"
-            color="primary"
+            color="secondary"
+            
           />
         </div>
-        <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 q-mb-md">
           <mini-card 
             name="Today Total"
             :value="todayTotal"
             icon="euro_symbol"
-            color="primary"
+            color="secondary"
           />
         </div>
 
-        <!-- <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 q-mb-md">
           <mini-card 
             name="Today Login"
             :value="todayLogin"
             icon="login"
-            color="primary"
+            color="secondary"
           />
         </div>
 
-        <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 q-mb-md">
           <mini-card 
             name="Today Errors"
             :value="todayErrors"
             icon="error"
-            color="primary"
+            color="secondary"
           />
-        </div> -->
+        </div> 
 
       </div>
       <div class="row q-pa-sm q-col-gutter-xs">
-        <div class="col-xs-12 col-md-6">
+        
+        <div class="col-xs-12 col-md-6 col-lg-4 col-xl-4">
           <q-card>
-            <q-card-section class="text-uppercase text-subtitle2 text-secondary">
-              Orders
-            </q-card-section>
-            <q-card-section>
+            <q-card-section class="q-pa-none q-ma-none">
               <apexchart id="chartOrder" :options="optionsNumber" :series="newSeriesNumber"></apexchart>
             </q-card-section>
           </q-card>  
         </div>
-        <div class="col-xs-12 col-md-6">
+        
+        <div class="col-xs-12 col-md-6 col-lg-4 col-xl-4">
           <q-card>
-            <q-card-section class="text-uppercase text-subtitle2 text-secondary">
-              Total
-            </q-card-section>
-            <q-card-section>
+            <q-card-section class="q-pa-none q-ma-none">
               <apexchart id="chartTotal" :options="optionTotal" :series="newSeriesTotal"></apexchart>
             </q-card-section>
           </q-card>  
@@ -117,7 +115,7 @@ export default {
           },
         },
         stroke: {
-          curve: 'straight'
+          curve: 'smooth'
         },
         fill: {
           opacity: 1,
@@ -125,17 +123,21 @@ export default {
         yaxis: {
           min: 0,
           labels: {
-            show: false
+            show: false,
+            minWidth: 40,
           }
         },
         title: {
           text: 0,
-          offsetX: 0,
+          offsetX: 10,
+          offsetY: 10,
           style: {
             fontSize: '24px',
           }
         },
         subtitle: {
+          offsetX: 12,
+          offsetY: 35,
           text: 'Last 15 days',
           style: {
             fontSize: "10px"
@@ -230,39 +232,24 @@ export default {
     },
     optionsNumber: function() 
       {
+        const newNumnerTitle = {
+          ...this.optionsChart.title,
+          text: this.newSeriesNumber[0].data.reduce((sum, x) => sum + x.y, 0)
+        }
         return {
           ...this.optionsChart, 
-          ...{
-            dataLabels: {
-              enabled: true,
-            },
-            title: {
-              text: this.newSeriesNumber[0].data.reduce((sum, x) => sum + x.y, 0),
-              style: {
-                fontSize: "24px"
-              }
-            }
-          }
+          title: newNumnerTitle
         }
     },
     optionTotal: function() 
       {
+         const newTotalTitle = {
+          ...this.optionsChart.title,
+          text: Intl.NumberFormat('en', { notation: 'compact' }).format(this.newSeriesTotal[0].data.reduce((sum, x) => sum + x.y, 0))
+        }
         return {
           ...this.optionsChart, 
-          ...{
-            dataLabels: {
-              enabled: true,
-              formatter: function(val, opt) {
-                return Intl.NumberFormat('en', { notation: 'compact' }).format(val)
-              }
-            },
-            title: {
-              text: Intl.NumberFormat('en', { notation: 'compact' }).format(this.newSeriesTotal[0].data.reduce((sum, x) => sum + x.y, 0)),
-              style: {
-                fontSize: "24px"
-              }
-            }
-          }
+          title: newTotalTitle
         }
     },
     todayOrder: function() {

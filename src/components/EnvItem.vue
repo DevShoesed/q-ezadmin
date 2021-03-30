@@ -1,6 +1,7 @@
 <template>
   <q-item>
-    <q-item-section avatar top>
+    
+    <q-item-section avatar>
       <q-icon name="apps" color="primary" size="34px" />
     </q-item-section>
 
