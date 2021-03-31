@@ -2,11 +2,11 @@
 
   <q-card 
     v-ripple
-    class="q-mb-md rounded-lg bg-white q-ma-md"
+    class="rounded-xl shadow-3 bg-white q-ma-sm"
     >
     <q-card-section class="row" >
-        <q-icon :name="icon" size="4rem" :color="color" class="col-6 q-pa-none q-ma-none text-left" />
-        <div class="col-6">
+        <q-icon :name="icon" size="4rem" :color="color" class="col-4 text-left light-dimmed" />
+        <div class="col-8 q-pl-lg">
           <p class="text-10 text-secondary q-mt-xs q-mb-none">{{ name }}</p>
           <p class="text-secondary text-24 q-mb-xs">{{ value }}</p>
         </div>

@@ -1,8 +1,8 @@
 <template>
-  <q-item>
+  <q-item class="bg-white q-ma-xs">
     
     <q-item-section avatar>
-      <q-icon name="apps" color="primary" size="34px" />
+      <q-avatar color="secondary" class="text-white" size="xl">{{ env.name.charAt(0) }}</q-avatar>
     </q-item-section>
 
     <q-item-section top>
@@ -24,9 +24,9 @@
     <!-- Add on this botton emit of custom even or props callback -->
     <q-item-section top side>
       <div class="text-grey-8 q-gutter-xs">
-        <q-btn class="gt-xs" size="12px" flat dense round icon="delete" />
-        <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
-        <q-btn size="12px" flat dense round icon="more_vert" />
+        <q-btn size="12px" flat dense round icon="delete" />
+        <q-btn size="12px" flat dense round icon="done" />
+        <!-- <q-btn size="12px" flat dense round icon="more_vert" /> -->
       </div>
     </q-item-section>
   </q-item>

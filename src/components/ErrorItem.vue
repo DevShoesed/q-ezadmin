@@ -3,9 +3,10 @@
     <q-item
       clickable
       v-ripple
+      class="bg-white q-ma-xs"
     >
       <q-item-section avatar >
-        <q-icon name="circle" color="red" size="xs" />
+        <q-avatar color="red" text-color="white" size="xl" icon="error_outline" />
       </q-item-section>
 
       <q-item-section>

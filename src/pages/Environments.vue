@@ -1,12 +1,10 @@
 <template>
-    <q-page class="container bg-grey-2">
+    <q-page class="container bg-grey-2 q-pa-lg">
+        <h5 class="text-primary q-mt-none q-mb-xs">Environments List</h5>
         
         <q-list
-            bordered
-            class="rounded-borders"
+            class="rounded-lg"
         >
-            <q-item-label header>Environments List</q-item-label>
-
             <env-item 
                 v-for="(env, index) in envs" 
                 :key="index"
@@ -14,6 +12,7 @@
             />
 
         </q-list>
+
     </q-page>
 </template>
 

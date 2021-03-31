@@ -1,13 +1,12 @@
 <template>
   <q-page class="container bg-grey-2 q-pa-lg">
     
-    <h4 class="text-primary q-mt-none q-mb-xs">Error List</h4>
-    
-    <div class="bg-white rounded-borders shadow-1">
+    <h5 class="text-primary q-mt-none q-mb-xs">Error List</h5>
       
       <q-list
         padding
         v-if="allErrors.length > 0"
+        class="rounded-lg"
       >
         <error-item 
           v-for="(err, index) in allErrors"
@@ -22,8 +21,6 @@
         No errors
       </div>
 
-    </div>
-    
      <!-- <q-dialog
       v-model="dialogPayload"
     >

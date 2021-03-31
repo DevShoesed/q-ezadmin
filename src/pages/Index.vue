@@ -2,12 +2,7 @@
   <q-page class="container bg-grey-2">
 
       <div class="bg-primary">
-        <div class="q-pa-sm doc-container">
-          <div class="column items-end">
-            
-          </div>
-        </div>
-        <div class="q-pa-sm row q-col-gutter-xs">
+        <div class="q-pa-xs row q-col-gutter-xs">
           <div 
             class="col q-ma-xs bg-white" 
             v-for="(env, key) in envs"
@@ -30,9 +25,10 @@
           </div>
         </div>
       </div>
-      <div class="row q-pa-sm q-col-gutter-sm">
 
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 q-mb-md">
+      <h5 class="row q-pt-lg q-pl-lg text-primary q-mt-none q-mb-xs">Today Stats</h5>
+      <div class="row q-pa-lg">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 q-mb-xs">
           <mini-card 
             name="Orders"
             :value="todayOrder"
@@ -41,7 +37,7 @@
             
           />
         </div>
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 q-mb-md">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 q-mb-xs">
           <mini-card 
             name="Total"
             :value="todayTotal"
@@ -50,7 +46,7 @@
           />
         </div>
 
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 q-mb-md">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 q-mb-xs">
           <mini-card 
             name="Logins"
             :value="todayLogin"
@@ -59,7 +55,7 @@
           />
         </div>
 
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 q-mb-md">
+        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 q-mb-xs">
           <mini-card 
             name="Errors"
             :value="todayErrors"
@@ -69,8 +65,7 @@
         </div> 
 
       </div>
-      <div class="row q-pa-sm q-col-gutter-xs">
-        
+      <div class="row q-pa-lg q-col-gutter-md">
         <div class="col-xs-12 col-md-6 col-lg-4 col-xl-4">
           <q-card>
             <q-card-section class="q-pa-none q-ma-none">
@@ -85,6 +80,12 @@
               <apexchart id="chartTotal" :options="optionTotal" :series="newSeriesTotal"></apexchart>
             </q-card-section>
           </q-card>  
+        </div>
+
+        <div class="col-xs-12 col-md-6 col-lg-4 col-xl-4">
+          <q-card>
+            <q-card-section></q-card-section>
+          </q-card>
         </div>
       </div>
     
@@ -130,14 +131,14 @@ export default {
         title: {
           text: 0,
           offsetX: 10,
-          offsetY: 10,
+          offsetY: 20,
           style: {
             fontSize: '24px',
           }
         },
         subtitle: {
           offsetX: 12,
-          offsetY: 35,
+          offsetY: 10,
           text: 'Last 15 days',
           style: {
             fontSize: "10px"
