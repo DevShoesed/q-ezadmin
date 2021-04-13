@@ -139,3 +139,27 @@ export function setDateRange({ commit, dispatch }, payload) {
   });
   dispatch("apiGetErrors");
 }
+
+export function apiGetLogins({ commit, state }) {
+  Object.values(state.envs).forEach(element => {
+    const endpoint = element.apiUrl + "/server.php?";
+    const da_data = date.formatDate(state.dateRange.from, "YYYY-MM-DD");
+    const a_data = date.formatDate(state.dateRange.to, "YYYY-MM-DD");
+    axios
+      .get(endpoint, {
+        params: {
+          action: "Admin_SysLog",
+          searchContesto: "Login",
+          da_data: da_data,
+          a_data: a_data
+        }
+      })
+      .then(response => {
+        const responseData = response.data.data;
+        commit("addLogins", {
+          envName: element.name,
+          logins: responseData
+        });
+      });
+  });
+}

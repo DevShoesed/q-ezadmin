@@ -5,8 +5,9 @@ export default function() {
     errors: {},
     envs: {},
     dateRange: {
-      from: date.subtractFromDate(new Date(), { days: 6 }),
+      from: date.subtractFromDate(new Date(), { days: 14 }),
       to: new Date()
-    }
+    },
+    logins: {}
   };
 }

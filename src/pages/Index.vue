@@ -84,7 +84,9 @@
 
         <div class="col-xs-12 col-md-6 col-lg-4 col-xl-4">
           <q-card>
-            <q-card-section></q-card-section>
+            <q-card-section class="q-pa-none q-ma-none">
+              <login-stat :optionsChart="optionsChart"></login-stat>
+            </q-card-section>
           </q-card>
         </div>
       </div>
@@ -153,7 +155,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('store', ['firebaseGetEnvs', 'apiGetErrors', 'updateEnvsStatus']),
+    ...mapActions('store', ['firebaseGetEnvs', 'apiGetErrors', 'updateEnvsStatus', 'apiGetLogins']),
     apiLoadStats() {
       Object.values(this.envs).forEach(element => {
         const endpoint = element.apiUrl + "/server.php?";
@@ -278,6 +280,7 @@ export default {
   },
   components: {
     MiniCard: () => import('components/MiniCard'),
+    LoginStat: () => import('components/LoginStats'),
     apexchart: VueApexCharts,
   }
 }

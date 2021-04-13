@@ -37,3 +37,29 @@ export function allErrors(state) {
     return new Date(b.time) - new Date(a.time);
   });
 }
+
+export function loginsByDate(state) {
+  let allLogins = [];
+  Object.values(state.logins).forEach(env => {
+    Object.values(env).forEach(log => {
+      allLogins.push({
+        date: date.formatDate(log.DataLog, "D/MM"),
+        time: date.formatDate(log.DataLog, "YYYYMMDDHHmm")
+      });
+    });
+  });
+  const map = new Map();
+  allLogins.sort(function(a, b) {
+    return a.time.localeCompare(b.time);
+  });
+  allLogins.forEach(item => {
+    const key = item.date;
+    const collection = map.get(key);
+    if (!collection) {
+      map.set(key, [item]);
+    } else {
+      collection.push(item);
+    }
+  });
+  return map;
+}

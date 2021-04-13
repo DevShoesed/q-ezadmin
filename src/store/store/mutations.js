@@ -12,6 +12,10 @@ export function addErrors(state, payload) {
   Vue.set(state.errors, payload.envName, payload.errDetails);
 }
 
+export function addLogins(state, payload) {
+  Vue.set(state.logins, payload.envName, payload.logins);
+}
+
 export function setDateRange(state, payload) {
   state.dateRange = payload;
 }
