@@ -68,6 +68,7 @@
       <div class="row q-pa-lg q-col-gutter-md">
         <div class="col-xs-12 col-md-6 col-lg-4 col-xl-4">
           <q-card>
+            <q-card-section class="text-bold text-primary">Orders</q-card-section>
             <q-card-section class="q-pa-none q-ma-none">
               <apexchart id="chartOrder" :options="optionsNumber" :series="newSeriesNumber"></apexchart>
             </q-card-section>
@@ -76,6 +77,7 @@
         
         <div class="col-xs-12 col-md-6 col-lg-4 col-xl-4">
           <q-card>
+            <q-card-section class="text-bold text-primary">Total</q-card-section>
             <q-card-section class="q-pa-none q-ma-none">
               <apexchart id="chartTotal" :options="optionTotal" :series="newSeriesTotal"></apexchart>
             </q-card-section>
@@ -84,6 +86,7 @@
 
         <div class="col-xs-12 col-md-6 col-lg-4 col-xl-4">
           <q-card>
+             <q-card-section class="text-bold text-primary">Logins</q-card-section>
             <q-card-section class="q-pa-none q-ma-none">
               <login-stat :optionsChart="optionsChart"></login-stat>
             </q-card-section>
@@ -106,7 +109,6 @@ export default {
     return {
       loading: false,
       intervalObj: null,
-      todayLogin: 0,
       todayErrors: 0,
       optionsChart: {
         chart: {
@@ -198,7 +200,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('store', ['numberEnvs', 'numErrors','envs', 'dateRange']),
+    ...mapGetters('store', ['numberEnvs', 'numErrors','envs', 'dateRange', 'loginsByDate']),
     newSeriesNumber: function() {
       const n = this.seriesNumber.reduce((max, xs) => Math.max(max, xs.length), 0);
       const result = Array.from({ length: n });
@@ -263,6 +265,10 @@ export default {
       const data = this.newSeriesTotal[0].data
       return data[data.length-1] ? data[data.length-1].y : 0
     },
+    todayLogin: function() {
+      const data = this.loginsByDate.get(date.formatDate(new Date(), "D/MM"))
+      return data ? data.length : 0
+    }
   },
   async mounted() {
     //this.loading = true

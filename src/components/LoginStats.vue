@@ -1,5 +1,5 @@
 <template>
-  <apexchart id="chartLogins" :options="optionsChart" :series="loginSeries" :type="optionsChart.type" ></apexchart>
+  <apexchart v-if="loginSeries" id="chartLogins" :options="optionsChart" :series="loginSeries" :type="optionsChart.type" ></apexchart>
 </template>
 
 <script>
