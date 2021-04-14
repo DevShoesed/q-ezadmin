@@ -1,5 +1,12 @@
 <template>
-  <apexchart v-if="loginSeries" id="chartLogins" :options="optionsChart" :series="loginSeries" :type="optionsChart.type" ></apexchart>
+  <apexchart 
+    v-if="loginSeries" 
+    :height="optionsChart.chart.height" 
+    id="chartLogins" 
+    :options="loginsChartOption" 
+    :series="loginSeries" 
+    :type="optionsChart.type" 
+  ></apexchart>
 </template>
 
 <script>
@@ -22,6 +29,9 @@ export default {
   },
   created () {
     this.apiGetLogins()
+    setTimeout(() => {
+      
+    }, 3000);
   },
   watch: {
     envs: function() {
@@ -44,7 +54,16 @@ export default {
           data: series
         }
       ];
-    
+    },
+    loginsChartOption: function() {
+      const newLoginsTitle = {
+        ...this.optionsChart.title,
+        text: this.loginSeries[0].data.reduce((sum, x) => sum + x.y, 0)
+      }
+      return {
+          ...this.optionsChart, 
+          title: newLoginsTitle
+        }
     }
   },
   components: {
