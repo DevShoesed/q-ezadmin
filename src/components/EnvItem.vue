@@ -14,10 +14,14 @@
         {{ env.apiUrl }}
       </q-item-label>
       <q-item-label lines="1" class="q-mt-xs text-body2 text-weight-bold text-primary text-uppercase">
-        <a 
+        <q-btn 
+          color="secondary"
           :href="env.apiUrl" 
-          target="_blank"
-        >Open in Browser</a>
+          @click="openInBrowser(env.apiUrl)"
+          label="Open in Browser"
+          outline 
+          icon-right="open_in_browser"
+        />
       </q-item-label>
     </q-item-section>
 
@@ -33,9 +37,16 @@
 </template>
 
 <script>
+import { openURL } from 'quasar'
+
 export default {
   props: {
     env: Object
+  },
+  methods: {
+    openInBrowser: function(url) {
+      openURL(url)
+    }
   }
 }
 </script>
